@@ -4,18 +4,18 @@ kind: Provisioner
 metadata:
   name: default
 spec:
-  ttlSecondsAfterEmpty: 60 # scale down nodes after 60 seconds without workloads (excluding daemons)
-  ttlSecondsUntilExpired: 604800 # expire nodes after 7 days (in seconds) = 7 * 60 * 60 * 24
+  ttlSecondsAfterEmpty: 300
+  ttlSecondsUntilExpired: 259200
   limits:
     resources:
-      cpu: 100
+      cpu: 20
   requirements:
     - key: karpenter.k8s.aws/instance-family
       operator: In
-      values: [nano, micro, small, large]
+      values: ["t3", "t3a", "t2"]
     - key: karpenter.k8s.aws/instance-size
-      operator: NotIn
-      values: [c5, m5, r5]
+      operator: "In"
+      values: ["micro", "small"]
   providerRef:
     name: my-provider
 ---
